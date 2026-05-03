@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+	--surface-page: #f4f7ff;
+	--surface-card: rgba(255, 255, 255, 0.86);
+	--surface-border: rgba(15, 35, 72, 0.12);
+	--text-main: #162136;
+	--text-soft: #5b667e;
+	--blue-start: #163466;
+	--blue-end: #0a1830;
+	--accent-cyan: #14b8a6;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+	min-height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: var(--text-main);
+	background:
+		radial-gradient(circle at 10% 0%, rgba(20, 184, 166, 0.14), transparent 30%),
+		radial-gradient(circle at 85% 12%, rgba(59, 130, 246, 0.2), transparent 35%),
+		linear-gradient(180deg, #f5f8ff 0%, #ebf1ff 100%);
+}
+
+.q-toolbar-title,
+.text-h5,
+.text-h6,
+.text-subtitle1 {
+	font-family: 'Space Grotesk', 'Manrope', sans-serif;
+}
+
+.glass-panel {
+	background: var(--surface-card);
+	border: 1px solid var(--surface-border);
+	border-radius: 16px;
+	backdrop-filter: blur(8px);
+	box-shadow: 0 16px 30px rgba(15, 35, 72, 0.08);
+}
+
+.section-title {
+	color: var(--text-main);
+	font-weight: 700;
+	letter-spacing: 0.2px;
+}
+
+.section-subtitle {
+	color: var(--text-soft);
+}

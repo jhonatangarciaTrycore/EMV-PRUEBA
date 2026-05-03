@@ -128,12 +128,22 @@ const defaultRowStyleFn = (row) => {
 
 <style scoped lang="scss">
 .table-header-cell {
-    background-color: $colorHeaderTable;
-    color: rgb(255, 255, 255) !important;
+    background: linear-gradient(120deg, #0f2348 0%, #163466 100%);
+    color: #ffffff !important;
     font-weight: 600 !important;
-    font-size: 0.95rem !important;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
     padding: 16px 12px !important;
     text-align: center !important;
+}
+
+.table {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 35, 72, 0.14);
+    box-shadow: 0 14px 28px rgba(15, 35, 72, 0.08);
+    background: rgba(255, 255, 255, 0.88);
 }
 
 .table:deep(.q-table__linear-progress) {
@@ -141,8 +151,19 @@ const defaultRowStyleFn = (row) => {
     height: 5px !important;
 }
 
+.table:deep(tbody tr) {
+    transition: background-color 0.2s ease;
+}
 
-thead{
-    background-color: $colorHeaderTable;
+.table:deep(tbody tr:hover) {
+    background-color: rgba(59, 130, 246, 0.06);
+}
+
+.table:deep(td) {
+    border-color: rgba(15, 35, 72, 0.08) !important;
+}
+
+thead {
+    background: linear-gradient(120deg, #0f2348 0%, #163466 100%);
 }
 </style>
