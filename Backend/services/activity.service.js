@@ -97,16 +97,12 @@ activityService.getActivityById = async (activityId) => {
         const result = await db.query(query, [activityId]);
         const activity = result.rows[0] || null;
 
-        if (!activity) {
-            throw new Error('Actividad no encontrada');
-        }
-
         return {
             msg: 'Actividad obtenida correctamente',
             activity,
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo obtener la actividad');
     }
 };
 
@@ -145,16 +141,12 @@ activityService.updateActivity = async (activityId, payload) => {
         const result = await db.query(query, values);
         const activity = result.rows[0] || null;
 
-        if (!activity) {
-            throw new Error('Actividad no encontrada');
-        }
-
         return {
             msg: 'Actividad actualizada correctamente',
             activity,
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo actualizar la actividad');
     }
 };
 
@@ -172,7 +164,7 @@ activityService.deleteActivity = async (activityId) => {
             msg: 'Actividad eliminada correctamente',
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo eliminar la actividad');
     }
 };
 

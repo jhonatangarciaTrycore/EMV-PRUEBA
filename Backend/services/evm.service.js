@@ -81,7 +81,7 @@ evmService.getActivityEvm = async (activityId) => {
             },
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo obtener el EVM de la actividad');
     }
 };
 
@@ -138,7 +138,7 @@ evmService.getProjectEvm = async (projectId, activities) => {
             evm: {...projectEvm, bac: totals.bac},
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo obtener el EVM del proyecto');
     }
 };
 
