@@ -11,9 +11,7 @@ evmCtrl.getActivityEvm = async (req, res) => {
     } catch (error) {
         console.error('Error in getActivityEvm:', error);
 
-        const statusCode = error.message === 'Actividad no encontrada' ? 404 : 500;
-
-        return res.status(statusCode).json({
+        return res.status(500).json({
             msg: error.message,
         });
     }
@@ -29,9 +27,7 @@ evmCtrl.getProjectEvm = async (req, res) => {
     } catch (error) {
         console.error('Error in getProjectEvm:', error);
 
-        const statusCode = error.message === 'Proyecto no encontrado' ? 404 : 500;
-
-        return res.status(statusCode).json({
+        return res.status(500).json({
             msg: error.message,
         });
     }
