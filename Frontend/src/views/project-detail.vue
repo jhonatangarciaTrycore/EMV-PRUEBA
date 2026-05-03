@@ -71,6 +71,13 @@
 
             <q-separator class="separator-soft" />
 
+            <q-card-section class="search-section q-pb-none">
+                <q-input v-model="searchActivities" outlined dense placeholder="Buscar actividad..." type="text"
+                    prefix-icon="search" />
+            </q-card-section>
+
+            <q-separator class="separator-soft" />
+
             <q-card-section>
                 <Table :rows="activities" :columns="columns" :pagination="pagination" :loanding-table="loadingTable"
                     hide-bottom>
@@ -145,7 +152,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Bar } from 'vue-chartjs'
 import {
@@ -173,12 +180,16 @@ const { error, success, warning } = useNotifications()
 
 const project = ref(null)
 const activities = ref([])
+const allActivities = ref([])
 const evm = ref(null)
 const noActivities = ref(false)
 const loadingTable = ref(false)
 const loadingActivity = ref(false)
 const modalActivity = ref(false)
 const activityModalRef = ref(null)
+const searchActivities = ref('')
+
+let debounceTimeout
 
 const formActivity = ref({
     nombre: '',
@@ -211,28 +222,28 @@ const columns = [
 
 const chartData = computed(() => {
     return {
-        labels: activities.value.map((activity) => activity.nombre),
+        labels: allActivities.value.map((activity) => activity.nombre),
         datasets: [
             {
                 label: 'PV',
-                data: activities.value.map((activity) => activity.evm?.pv ?? 0),
+                data: allActivities.value.map((activity) => activity.evm?.pv ?? 0),
                 backgroundColor: '#3b82f6'
             },
             {
                 label: 'EV',
-                data: activities.value.map((activity) => activity.evm?.ev ?? 0),
+                data: allActivities.value.map((activity) => activity.evm?.ev ?? 0),
                 backgroundColor: '#10b981'
             },
             {
                 label: 'AC',
-                data: activities.value.map((activity) => activity.evm?.ac ?? 0),
+                data: allActivities.value.map((activity) => activity.evm?.ac ?? 0),
                 backgroundColor: '#f59e0b'
             }
         ]
     }
 })
 
-const hasActivities = computed(() => activities.value.length > 0 && !noActivities.value)
+const hasActivities = computed(() => allActivities.value.length > 0 && !noActivities.value)
 
 const chartOptions = {
     responsive: true,
@@ -252,7 +263,7 @@ const chartOptions = {
                     }
 
                     const activityIndex = tooltipItems[0].dataIndex
-                    const activity = activities.value[activityIndex]
+                    const activity = allActivities.value[activityIndex]
 
                     if (!activity) {
                         return ''
@@ -360,15 +371,17 @@ const getProjectDetail = async () => {
         const res = await getData(`/evm/getProjectEvm/${route.params.id}`)
         noActivities.value = false
         project.value = res.project || null
+        allActivities.value = res.activities || []
         activities.value = res.activities || []
         evm.value = res.evm || null
-        pagination.value.rowsNumber = activities.value.length
+        pagination.value.rowsNumber = allActivities.value.length
     } catch (err) {
         const message = err.response?.data?.msg || err.response?.data?.errors?.[0] || 'Error al obtener detalle de proyecto'
 
         if (String(message).toLowerCase().includes('no tiene actividades')) {
             noActivities.value = true
             activities.value = []
+            allActivities.value = []
             evm.value = null
             pagination.value.rowsNumber = 0
             return
@@ -379,6 +392,18 @@ const getProjectDetail = async () => {
         loadingTable.value = false
     }
 }
+
+watch(searchActivities, (newValue) => {
+    // Filtrar actividades solo en la tabla, sin cambiar las métricas del proyecto
+    if (newValue.trim() === '') {
+        activities.value = allActivities.value
+    } else {
+        activities.value = allActivities.value.filter((activity) =>
+            activity.nombre.toLowerCase().includes(newValue.toLowerCase())
+        )
+    }
+    pagination.value.rowsNumber = activities.value.length
+})
 
 const resetActivityForm = () => {
     formActivity.value = {
@@ -414,6 +439,7 @@ const submitActivity = async () => {
         closeActivityModal()
         noActivities.value = false
         await getProjectDetail()
+        searchActivities.value = '' // Limpiar búsqueda al crear nueva actividad
     } catch (err) {
         error(err.response?.data?.msg || err.response?.data?.errors?.[0]?.msg || 'Error al crear actividad')
     } finally {
@@ -474,6 +500,10 @@ onMounted(() => {
 
 .separator-soft {
     opacity: 0.55;
+}
+
+.search-section {
+    padding: 12px 16px;
 }
 
 @media (max-width: 768px) {

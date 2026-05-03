@@ -20,8 +20,7 @@ activityCtrl.createActivity = async (req, res) => {
 activityCtrl.getActivitiesByProject = async (req, res) => {
     try {
         const { projectId } = req.params;
-        const { search } = req.query;
-        const result = await activityService.getActivitiesByProject(projectId, search || null);
+        const result = await activityService.getActivitiesByProject(projectId);
 
         return res.status(200).json(result);
     } catch (error) {
