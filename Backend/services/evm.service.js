@@ -121,12 +121,14 @@ evmService.getProjectEvm = async (projectId, activities) => {
             { bac: 0, pv: 0, ev: 0, ac: 0 }
         );
 
+        const plannedPercent = totals.bac === 0 ? 0 : (totals.pv / totals.bac) * 100;
+        const actualPercent = totals.bac === 0 ? 0 : (totals.ev / totals.bac) * 100;
 
         // Calcular EVM del proyecto usando los totales, sacando los porcentajes a partir de los totales
         const projectEvm = calculateEvm({
             bac: totals.bac,
-            plannedPercent: (totals.pv / totals.bac) * 100,
-            actualPercent: (totals.ev / totals.bac) * 100,
+            plannedPercent,
+            actualPercent,
             actualCost: totals.ac,
         });
 
