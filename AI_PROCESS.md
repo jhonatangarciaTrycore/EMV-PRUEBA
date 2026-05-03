@@ -35,3 +35,79 @@
 - [2026-05-02] ahora crea filtros de busqueda para los proyectos y filtros de busqueda para las actividades en el backend. por query
 - [2026-05-02] agrega los filtros en el frontend, usa los inputs con debonce. 
 - [2026-05-02] sube los cambios.
+- [2026-05-02] Analiza el proyecto backend actual (Node.js + Express) y genera pruebas automatizadas siguiendo buenas prácticas.
+
+Objetivo:
+Crear tests unitarios y de integración que cubran la lógica de negocio y los endpoints del sistema, especialmente la lógica de cálculo EVM.
+
+Instrucciones:
+
+1. Detectar automáticamente:
+
+   * Estructura del proyecto (controllers, services, routes)
+   * Servicios relacionados con EVM (ej: EvmService o similares)
+   * Endpoints definidos en routes
+
+2. Generar pruebas unitarias para:
+
+   * Todos los métodos de services que contienen lógica de negocio
+   * Especialmente cálculos EVM (CPI, SPI, EV, AC, PV, etc.)
+
+3. Cubrir obligatoriamente casos borde:
+
+   * AC = 0 (evitar división por cero)
+   * Datos vacíos o null
+   * Actividades inexistentes
+   * Avance real = 0
+   * Valores inconsistentes
+
+4. Generar pruebas de integración para endpoints:
+
+   * Al menos un test por endpoint
+   * Validar:
+
+     * Código de estado HTTP
+     * Estructura de la respuesta (JSON)
+     * Mensajes esperados
+
+5. Stack de testing:
+
+   * Usar Jest como framework principal
+   * Usar Supertest para endpoints HTTP
+   * Mockear base de datos cuando sea necesario
+
+6. Buenas prácticas:
+
+   * No testear controllers directamente si solo delegan
+   * Testear services de forma aislada
+   * Usar mocks para dependencias externas (DB)
+   * Tests claros y descriptivos
+
+7. Estructura esperada:
+
+tests/
+├── unit/
+│   └── services/
+│       └── evm.service.test.js
+└── integration/
+└── routes/
+└── project.routes.test.js
+
+8. Formato de los tests:
+
+   * Usar describe / it
+   * Nombres descriptivos:
+     "should calculate CPI correctly when AC > 0"
+     "should handle division by zero when AC is 0"
+
+9. No inventar lógica:
+
+   * Basarse únicamente en el código existente
+   * Usar nombres reales de funciones del proyecto
+
+Resultado esperado:
+Código listo para ejecutar con Jest, sin pseudocódigo, completamente funcional y alineado con el proyecto actual.
+
+- [2026-05-02] ejecuta las pruebas.
+- [2026-05-02] sube los cambios
+- [2026-05-03] a una rama nueva

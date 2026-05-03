@@ -18,13 +18,15 @@ app.use('/projects', projectRoutes);
 app.use('/activities', activityRoutes);
 app.use('/evm', evmRoutes);
 
-db.query('SELECT NOW()')
-    .then(() => console.log('Database connected'))
-    .catch((error) => console.error('Database connection error', error));
+if (process.env.NODE_ENV !== 'test') {
+    db.query('SELECT NOW()')
+        .then(() => console.log('Database connected'))
+        .catch((error) => console.error('Database connection error', error));
 
-app.listen(PORT, () => {
-    console.log(`Servidor EVM escuchando en puerto ${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Servidor EVM escuchando en puerto ${PORT}`);
+    });
+}
 
 
 export { app };
