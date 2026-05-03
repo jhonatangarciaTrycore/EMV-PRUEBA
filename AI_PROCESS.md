@@ -1,7 +1,16 @@
-
 ## AI Process
 
-## PROMTS UTILIZADOS
+## Herramientas de IA utilizadas y por que
+
+- GitHub Copilot Chat (GPT-5.3-Codex): herramienta principal para implementar backend/frontend, generar pruebas automatizadas, documentacion tecnica y apoyar debugging rapido dentro de VS Code.
+- IA de apoyo conversacional en la misma sesion: se uso para iterar prompts, validar redaccion tecnica y acelerar decisiones durante correcciones de pruebas.
+
+La eleccion fue por integracion directa con el editor, velocidad para iterar cambios en codigo real y capacidad para combinar analisis + edicion + ejecucion de comandos.
+
+-ChatGpt : se uso para la creacion de prompts, para generar archivos de contexto para backend y frontend. 
+
+
+## Prompts utilizados (textuales y en orden cronologico)
 
 - [2026-05-02] Teniendo ya contexto del proyecto, genera la estructura de carpetas y genera los modelos.
 - [2026-05-02] Instala dependecias e inicializa el server
@@ -33,11 +42,10 @@
 - [2026-05-02] ahora, sube los cambios del frontend.
 - [2026-05-02] para el frontend en una nueva rama.
 - [2026-05-02] ahora crea filtros de busqueda para los proyectos y filtros de busqueda para las actividades en el backend. por query
-- [2026-05-02] agrega los filtros en el frontend, usa los inputs con debonce. 
+- [2026-05-02] agrega los filtros en el frontend, usa los inputs con debonce.
 - [2026-05-02] sube los cambios.
 - [2026-05-02] Analiza el proyecto backend actual (Node.js + Express) y genera pruebas automatizadas siguiendo buenas prácticas.
-
-Objetivo:
+- [2026-05-02] Objetivo:
 Crear tests unitarios y de integración que cubran la lógica de negocio y los endpoints del sistema, especialmente la lógica de cálculo EVM.
 
 Instrucciones:
@@ -107,7 +115,39 @@ tests/
 
 Resultado esperado:
 Código listo para ejecutar con Jest, sin pseudocódigo, completamente funcional y alineado con el proyecto actual.
-
 - [2026-05-02] ejecuta las pruebas.
 - [2026-05-02] sube los cambios
 - [2026-05-03] a una rama nueva
+- [2026-05-03] ahora crea el README.md para el backend.
+- [2026-05-03] pon de donde se saca la conexion para la base de datos.
+- [2026-05-03] ahora crea el README.md para el frontend
+- [2026-05-03] sube los cambios
+
+
+## Como aprendi EVM y como valide antes de implementarlo
+
+Use gemeni para entender los conceptos de EVM, como se calculan las metricas y que significan. Luego, valide los calculos con ejemplos practicos y casos borde para asegurarme que la logica era correcta antes de implementarla en el codigo.
+
+Tambien use NotebookLM para aprender EVM y validar los calculos con ejemplos adicionales. 
+
+## Dos decisiones donde no segui la sugerencia inicial de la IA
+- La IA sugirio crear archivos para realizar consultas SQL, pero decidi usar consultas SQL directas con pg en el service para mantenerlo simple y transparente.
+
+- La IA sugurios codigo de frontend desalineado con lo propuesto, por ejemplo, uso de componentes que no existian, rutas distintas a las propuestas, etc. Decidi escribir mas detalles en el contexto para el frontend. 
+
+
+## Decision de arquitectura tomada de forma independiente
+
+Separacion por capas en backend:
+
+- Routes: validaciones y definicion HTTP.
+- Controllers: orquestacion request/response.
+- Services: logica de negocio y consultas.
+- Helpers: validadores de existencia/restricciones reutilizables.
+
+Esta estructura se mantuvo consistente durante CRUD, EVM y pruebas.
+
+
+## Reflexion honesta: que haria diferente
+
+- Empezaria por especificar mas a detalle los requerimientos para realizar archivos de contexto mas completos para cada parte. Para que la IA tenga toda la informacion y genere codigo mas alineado desde el inicio. 
