@@ -70,7 +70,7 @@ const modelValue = defineModel({ type: Boolean, default: false })
 </script>
 
 <style scoped lang="scss">
-@import '../quasar-variables.sass';
+@import '../../quasar-variables.sass';
 
 .modern-modal-card {
     border-radius: 16px;

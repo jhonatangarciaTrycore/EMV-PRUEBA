@@ -1,7 +1,7 @@
 <template>
-    <q-btn :label="label" :type="type" :unelevated="unelevated" :class="[customClass]" :loading="loading" :icon="icon"
-        :color="color" :padding="padding" :flat="flat" :round="round" :dense="dense" :glossy="glossy" :no-caps="noCaps"
-        :text-color="textColor" text-color="black" :size="size" :disable="disabled" :outline="outline"
+    <q-btn :label="label" :type="type" :unelevated="unelevated" :class="['app-btn', customClass]" :loading="loading"
+        :icon="icon" :color="color" :padding="padding" :flat="flat" :round="round" :dense="dense" :glossy="glossy"
+        :no-caps="noCaps" :text-color="textColor" :size="size" :disable="disabled" :outline="outline"
         :rounded="rounded" @click="handleClick">
 
         <template v-slot:loading>
@@ -62,8 +62,20 @@ const handleClick = (event) => {
 </script>
 
 <style scoped>
-/* Hover global para botones */
-button:hover {
+.app-btn {
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.app-btn:hover {
     cursor: pointer;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(15, 35, 72, 0.18);
+    filter: saturate(1.05);
+}
+
+.app-btn:active {
+    transform: translateY(0);
 }
 </style>
