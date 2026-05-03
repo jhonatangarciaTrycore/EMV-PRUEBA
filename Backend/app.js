@@ -3,6 +3,7 @@ import 'dotenv/config';
 import { db } from './db.config.js';
 import cors from 'cors';
 import projectRoutes from './routes/project.routes.js';
+import activityRoutes from './routes/activity.routes.js';
 
 
 const app = express();
@@ -13,6 +14,7 @@ app.use(cors());
 
 
 app.use('/projects', projectRoutes);
+app.use('/activities', activityRoutes);
 
 db.query('SELECT NOW()')
     .then(() => console.log('Database connected'))
