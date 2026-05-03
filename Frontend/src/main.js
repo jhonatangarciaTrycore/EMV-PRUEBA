@@ -4,6 +4,7 @@ import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 import App from './App.vue'
 import { router } from './routes/Routes'
+import './style.css'
 
 const myApp = createApp(App)
 myApp.use(router)
