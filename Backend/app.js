@@ -4,6 +4,7 @@ import { db } from './db.config.js';
 import cors from 'cors';
 import projectRoutes from './routes/project.routes.js';
 import activityRoutes from './routes/activity.routes.js';
+import evmRoutes from './routes/evm.routes.js';
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use('/projects', projectRoutes);
 app.use('/activities', activityRoutes);
+app.use('/evm', evmRoutes);
 
 db.query('SELECT NOW()')
     .then(() => console.log('Database connected'))
