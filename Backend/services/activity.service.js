@@ -47,9 +47,9 @@ activityService.createActivity = async (projectId, payload) => {
     }
 };
 
-activityService.getActivitiesByProject = async (projectId) => {
+activityService.getActivitiesByProject = async (projectId, searchTerm = null) => {
     try {
-        const query = `
+        let query = `
             SELECT
                 id,
                 project_id,
@@ -62,10 +62,17 @@ activityService.getActivitiesByProject = async (projectId) => {
                 updated_at
             FROM activities
             WHERE project_id = $1
-            ORDER BY id ASC
         `;
+        const queryParams = [projectId];
 
-        const result = await db.query(query, [projectId]);
+        if (searchTerm) {
+            query += ` AND nombre ILIKE '%' || $2 || '%'`;
+            queryParams.push(searchTerm);
+        }
+
+        query += ` ORDER BY id ASC`;
+
+        const result = await db.query(query, queryParams);
 
         return {
             msg: 'Actividades obtenidas correctamente',

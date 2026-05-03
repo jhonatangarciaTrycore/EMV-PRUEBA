@@ -22,15 +22,22 @@ projectService.createProject = async (payload) => {
     }
 };
 
-projectService.getProjects = async () => {
+projectService.getProjects = async (searchTerm = null) => {
     try {
-        const query = `
+        let query = `
             SELECT id, nombre, created_at, updated_at
             FROM projects
-            ORDER BY id ASC
         `;
+        const queryParams = [];
 
-        const result = await db.query(query);
+        if (searchTerm) {
+            query += ` WHERE nombre ILIKE '%' || $1 || '%'`;
+            queryParams.push(searchTerm);
+        }
+
+        query += ` ORDER BY id ASC`;
+
+        const result = await db.query(query, queryParams);
         const projects = result.rows;
 
         return {

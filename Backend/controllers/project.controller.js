@@ -18,7 +18,8 @@ projectCtrl.createProject = async (req, res) => {
 
 projectCtrl.getProjects = async (req, res) => {
     try {
-        const result = await projectService.getProjects();
+        const { search } = req.query;
+        const result = await projectService.getProjects(search || null);
 
         return res.status(200).json(result);
     } catch (error) {
