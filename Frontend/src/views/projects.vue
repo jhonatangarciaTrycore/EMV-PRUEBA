@@ -18,6 +18,13 @@
 
             <q-separator class="separator-soft" />
 
+            <q-card-section class="search-section q-pb-none">
+                <q-input v-model="searchTerm" outlined dense placeholder="Buscar por nombre..." type="text"
+                    prefix-icon="search" />
+            </q-card-section>
+
+            <q-separator class="separator-soft" />
+
             <q-card-section>
                 <Table :rows="rows" :columns="columns" :pagination="pagination" :loanding-table="loadingTable" hide-bottom>
                     <template #body-cell-id="scope">
@@ -98,7 +105,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 
 import Button from '../components/button.vue'
@@ -120,6 +127,9 @@ const modalProject = ref(false)
 const modalDelete = ref(false)
 const projectModalRef = ref(null)
 const projectToDelete = ref(null)
+const searchTerm = ref('')
+
+let debounceTimeout
 
 const formProject = ref({
     id: null,
@@ -167,11 +177,12 @@ const resetForm = () => {
     }
 }
 
-const getProjects = async () => {
+const getProjects = async (search = null) => {
     loadingTable.value = true
 
     try {
-        const res = await getData(`/projects/getProjects`)
+        const url = search ? `/projects/getProjects?search=${encodeURIComponent(search)}` : '/projects/getProjects'
+        const res = await getData(url)
         rows.value = res.projects || []
         pagination.value.rowsNumber = rows.value.length
     } catch (err) {
@@ -180,6 +191,13 @@ const getProjects = async () => {
         loadingTable.value = false
     }
 }
+
+watch(searchTerm, (newValue) => {
+    clearTimeout(debounceTimeout)
+    debounceTimeout = setTimeout(() => {
+        getProjects(newValue || null)
+    }, 500)
+})
 
 const openCreateModal = () => {
     resetForm()
@@ -302,6 +320,10 @@ onMounted(() => {
 
 .separator-soft {
     opacity: 0.55;
+}
+
+.search-section {
+    padding: 12px 16px;
 }
 
 @media (max-width: 768px) {

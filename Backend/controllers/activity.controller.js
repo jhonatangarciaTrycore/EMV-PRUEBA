@@ -41,9 +41,7 @@ activityCtrl.getActivityById = async (req, res) => {
     } catch (error) {
         console.error('Error in getActivityById:', error);
 
-        const statusCode = error.message === 'Actividad no encontrada' ? 404 : 500;
-
-        return res.status(statusCode).json({
+        return res.status(500).json({
             msg: error.message,
         });
     }
@@ -58,9 +56,7 @@ activityCtrl.updateActivity = async (req, res) => {
     } catch (error) {
         console.error('Error in updateActivity:', error);
 
-        const statusCode = error.message === 'Actividad no encontrada' ? 404 : 500;
-
-        return res.status(statusCode).json({
+        return res.status(500).json({
             msg: error.message,
         });
     }
@@ -75,9 +71,7 @@ activityCtrl.deleteActivity = async (req, res) => {
     } catch (error) {
         console.error('Error in deleteActivity:', error);
 
-        const statusCode = error.message === 'Actividad no encontrada' ? 404 : 500;
-
-        return res.status(statusCode).json({
+        return res.status(500).json({
             msg: error.message,
         });
     }
