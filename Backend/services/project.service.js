@@ -54,16 +54,12 @@ projectService.getProjectById = async (projectId) => {
         const result = await db.query(query, [projectId]);
         const project = result.rows[0] || null;
 
-        if (!project) {
-            throw new Error('Proyecto no encontrado');
-        }
-
         return {
             msg: 'Proyecto obtenido correctamente',
             project,
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo obtener el proyecto');
     }
 };
 
@@ -80,16 +76,12 @@ projectService.updateProject = async (projectId, payload) => {
         const result = await db.query(query, [projectId, payload.nombre]);
         const project = result.rows[0] || null;
 
-        if (!project) {
-            throw new Error('Proyecto no encontrado');
-        }
-
         return {
             msg: 'Proyecto actualizado correctamente',
             project,
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo actualizar el proyecto');
     }
 };
 
@@ -99,15 +91,11 @@ projectService.deleteProject = async (projectId) => {
         const result = await db.query(query, [projectId]);
         const deleted = result.rows[0] || null;
 
-        if (!deleted) {
-            throw new Error('Proyecto no encontrado');
-        }
-
         return {
             msg: 'Proyecto eliminado correctamente',
         };
     } catch (error) {
-        throw error;
+        throw new Error('No se pudo eliminar el proyecto');
     }
 };
 
